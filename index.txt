@@ -1,0 +1,219 @@
+import { Link2, MousePointerClick, Users, Shield, Heart, Sparkles, Rocket, Code, Coffee, ExternalLink } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+export default function About() {
+    const features = [
+        {
+            icon: Link2,
+            title: 'Memorable URLs',
+            description: 'Create short, readable links like /q1-results instead of random hashes',
+        },
+        {
+            icon: MousePointerClick,
+            title: 'Click Analytics',
+            description: 'Real-time tracking with daily breakdown charts and insights',
+        },
+        {
+            icon: Sparkles,
+            title: 'Link Oracle',
+            description: 'AI-powered assistant to discover and find relevant links instantly',
+        },
+        {
+            icon: Users,
+            title: 'Ownership & Transfers',
+            description: 'Every link has an owner with seamless transfer capability',
+        },
+        {
+            icon: Shield,
+            title: 'Enterprise SSO',
+            description: 'Secure authentication via Microsoft Entra ID',
+        },
+    ];
+
+    const stats = [
+        { value: '1,500+', label: 'Active Users' },
+        { value: 'BETA', label: 'Current Stage' },
+        { value: '∞', label: 'Links Possible' },
+        { value: '24/7', label: 'Availability' },
+    ];
+
+    return (
+        <div className="space-y-12 animate-fade-in pb-16">
+            {/* Hero Section */}
+            <div className="relative overflow-hidden rounded-2xl glass-card p-8 lg:p-12">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-brand-red/20 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-brand-blue/20 to-transparent rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+                <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-amber-500/10 text-amber-500 rounded-full border border-amber-500/20">
+                            ✨ BETA
+                        </span>
+                        <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-brand-red/10 text-brand-red rounded-full border border-brand-red/20">
+                            Internal Tool
+                        </span>
+                    </div>
+
+                    <h1 className="text-4xl lg:text-5xl font-bold tracking-tighter mb-4">
+                        Meet <span className="text-neon-red">GoUSB</span>
+                    </h1>
+
+                    <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                        Your enterprise link shortener that makes sharing URLs across the organization
+                        <span className="text-foreground font-medium"> simple, trackable, and memorable</span>.
+                    </p>
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+                        {stats.map((stat) => (
+                            <div key={stat.label} className="text-center p-4 rounded-xl bg-muted/30 border border-border">
+                                <div className="text-2xl lg:text-3xl font-bold text-brand-red">{stat.value}</div>
+                                <div className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold mt-1">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Features Grid */}
+            <div>
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 rounded-lg bg-brand-red/10">
+                        <Rocket className="h-5 w-5 text-brand-red" />
+                    </div>
+                    <h2 className="text-2xl font-bold tracking-tight">What Makes It Special</h2>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                    {features.map((feature) => (
+                        <div
+                            key={feature.title}
+                            className="glass-card p-6 group hover:border-brand-red/30 transition-all duration-300"
+                        >
+                            <div className="flex items-start gap-4">
+                                <div className="p-3 rounded-xl bg-brand-red/10 border border-brand-red/20 group-hover:scale-110 transition-transform">
+                                    <feature.icon className="h-6 w-6 text-brand-red" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-foreground mb-1">{feature.title}</h3>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                        {feature.description}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* The Story Section */}
+            <div className="grid lg:grid-cols-2 gap-8">
+                <div className="glass-card p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-2 rounded-lg bg-brand-blue/10">
+                            <Code className="h-5 w-5 text-brand-blue dark:text-blue-400" />
+                        </div>
+                        <h2 className="text-2xl font-bold tracking-tight">The Story</h2>
+                    </div>
+
+                    <div className="space-y-4 text-muted-foreground leading-relaxed">
+                        <p>
+                            It started with a simple frustration: sharing long, cryptic URLs across teams and watching
+                            them break in emails, or worse—people not clicking because they looked suspicious.
+                        </p>
+                        <p>
+                            <span className="text-foreground font-medium">GoUSB</span> was born as a side project
+                            to solve this. What began as a weekend experiment has grown into a tool trusted by
+                            <span className="text-brand-red font-bold"> 1,500+ colleagues</span> across the organization.
+                        </p>
+                        <p>
+                            Every feature—from click analytics to ownership transfers—was built based on real
+                            feedback from real users. This is <span className="italic">your</span> tool, shaped by
+                            <span className="italic"> your</span> needs.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Creator Card */}
+                <div className="glass-card p-8 flex flex-col">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-2 rounded-lg bg-amber-500/10">
+                            <Coffee className="h-5 w-5 text-amber-500" />
+                        </div>
+                        <h2 className="text-2xl font-bold tracking-tight">Built With ❤️</h2>
+                    </div>
+
+                    <div className="flex items-center gap-4 mb-6">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-red to-brand-blue flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            N
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-lg text-foreground">Nandu-Nihar</h3>
+                            <p className="text-sm text-muted-foreground">Developer & Creator</p>
+                        </div>
+                    </div>
+
+                    <p className="text-muted-foreground leading-relaxed flex-1">
+                        Passionate about building tools that make work life easier. GoUSB is a labor of love,
+                        crafted in the evenings and weekends to help our organization communicate better.
+                    </p>
+
+                    <div className="mt-6 pt-6 border-t border-border">
+                        <p className="text-xs text-muted-foreground">
+                            <Sparkles className="h-3 w-3 inline mr-1 text-amber-500" />
+                            Feedback and feature requests always welcome!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Appreciation CTA */}
+            <div className="relative overflow-hidden rounded-2xl border border-pink-500/20 bg-gradient-to-r from-pink-500/5 via-transparent to-amber-500/5 p-8 lg:p-10">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-500/20 to-transparent rounded-full blur-2xl" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-500/20 to-transparent rounded-full blur-2xl" />
+
+                <div className="relative z-10 flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
+                    <div className="p-4 rounded-2xl bg-pink-500/10 border border-pink-500/20">
+                        <Heart className="h-10 w-10 text-pink-500 animate-pulse" />
+                    </div>
+
+                    <div className="flex-1 text-center lg:text-left">
+                        <h2 className="text-2xl font-bold tracking-tight mb-2">
+                            Enjoying GoUSB?
+                        </h2>
+                        <p className="text-muted-foreground max-w-xl">
+                            If this tool has saved you time or made your work easier, consider sending a note
+                            of appreciation. It means the world and fuels future improvements! 🚀
+                        </p>
+                    </div>
+
+                    <a
+                        href="https://appreciate.yourcompany.com/send"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={cn(
+                            'inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white',
+                            'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600',
+                            'shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300',
+                            'focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-background'
+                        )}
+                    >
+                        <Heart className="h-4 w-4" />
+                        Send Appreciation
+                        <ExternalLink className="h-3 w-3 opacity-70" />
+                    </a>
+                </div>
+            </div>
+
+            {/* Footer Note */}
+            <div className="text-center pt-4">
+                <p className="text-xs text-muted-foreground">
+                    GoUSB v1.0 BETA • Built for internal use •
+                    <span className="text-brand-red"> Made with passion</span>
+                </p>
+            </div>
+        </div>
+    );
+}
