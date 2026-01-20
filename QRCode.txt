@@ -1,0 +1,132 @@
+import { useEffect, useRef, useState } from 'react';
+import QRCode from 'qrcode';
+import { Download, Copy, Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useToastStore } from '../store';
+import { cn } from '@/lib/utils';
+
+/**
+ * QRCodeDisplay - Generates a QR code with optional logo overlay
+ * @param {string} value - The URL/text to encode in the QR code
+ * @param {number} size - Size of the QR code in pixels (default: 180)
+ * @param {string} logoSrc - Optional path to logo image to overlay in center
+ * @param {string} className - Additional CSS classes
+ */
+export function QRCodeDisplay({ value, size = 180, logoSrc = '/favicon.svg', className = '' }) {
+    const canvasRef = useRef(null);
+    const [copied, setCopied] = useState(false);
+    const { addToast } = useToastStore();
+
+    useEffect(() => {
+        if (!value || !canvasRef.current) return;
+
+        const canvas = canvasRef.current;
+
+        // Generate QR code with high error correction (allows logo overlay)
+        QRCode.toCanvas(canvas, value, {
+            width: size,
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#ffffff',
+            },
+            errorCorrectionLevel: 'H', // High error correction for logo overlay
+        }, (error) => {
+            if (error) {
+                console.error('QR Code generation error:', error);
+                return;
+            }
+
+            // Add logo overlay if provided
+            if (logoSrc) {
+                const ctx = canvas.getContext('2d');
+                const logo = new Image();
+                logo.crossOrigin = 'anonymous';
+                logo.onload = () => {
+                    const logoSize = size * 0.22; // Logo takes ~22% of QR size
+                    const logoX = (size - logoSize) / 2;
+                    const logoY = (size - logoSize) / 2;
+
+                    // Draw white circle background behind logo
+                    ctx.beginPath();
+                    ctx.arc(size / 2, size / 2, logoSize / 2 + 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fill();
+
+                    // Draw the logo
+                    ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+                };
+                logo.src = logoSrc;
+            }
+        });
+    }, [value, size, logoSrc]);
+
+    const downloadQR = () => {
+        if (!canvasRef.current) return;
+
+        const link = document.createElement('a');
+        link.download = `qr-${value.split('/').pop()}.png`;
+        link.href = canvasRef.current.toDataURL('image/png');
+        link.click();
+        addToast({ type: 'success', message: 'QR code downloaded!' });
+    };
+
+    const copyQR = async () => {
+        if (!canvasRef.current) return;
+
+        try {
+            const blob = await new Promise(resolve =>
+                canvasRef.current.toBlob(resolve, 'image/png')
+            );
+            await navigator.clipboard.write([
+                new ClipboardItem({ 'image/png': blob })
+            ]);
+            setCopied(true);
+            addToast({ type: 'success', message: 'QR code copied!' });
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            // Fallback: copy the URL instead
+            navigator.clipboard.writeText(value);
+            addToast({ type: 'info', message: 'Link copied (image copy not supported)' });
+        }
+    };
+
+    return (
+        <div className={cn('flex flex-col items-center gap-3', className)}>
+            <div className="p-3 bg-white rounded-xl shadow-lg border border-border">
+                <canvas ref={canvasRef} />
+            </div>
+
+            <div className="flex items-center gap-1.5">
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={downloadQR}
+                    className="h-8 px-3 text-xs"
+                >
+                    <Download className="h-3.5 w-3.5 mr-1.5" />
+                    Download
+                </Button>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={copyQR}
+                    className="h-8 px-3 text-xs"
+                >
+                    {copied ? (
+                        <Check className="h-3.5 w-3.5 mr-1.5 text-green-500" />
+                    ) : (
+                        <Copy className="h-3.5 w-3.5 mr-1.5" />
+                    )}
+                    {copied ? 'Copied!' : 'Copy'}
+                </Button>
+            </div>
+
+            <p className="text-[10px] text-muted-foreground text-center max-w-[180px] truncate">
+                {value}
+            </p>
+        </div>
+    );
+}
+
+export default QRCodeDisplay;
